@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hive offline key generator</title>
+</head>
+<script src="./dhive@latest.js">
+</script>
+<script>
+    function actionForm() {
+        let uu = document.getElementById('uname').value;
+        let pp = document.getElementById('mpassword').value;
+        let ok = dhive.PrivateKey.fromLogin(uu, pp,'owner');
+        let ak = dhive.PrivateKey.fromLogin(uu, pp,'active');
+        let pk = dhive.PrivateKey.fromLogin(uu, pp,'posting');
+        let mk = dhive.PrivateKey.fromLogin(uu, pp,'memo');
+        document.getElementById('prkeys').innerHTML = `<h2>Private Keys</h2><br>Owner: ${ok.toString()}<br>Active: ${ak.toString()}<br>Posting: ${pk.toString()}<br>Memo: ${mk.toString()}<br>`;
+        document.getElementById('pukeys').innerHTML = `<h2>Public Keys</h2><br>Owner: ${ok.createPublic().toString()}<br>Active: ${ak.createPublic().toString()}<br>Posting: ${pk.createPublic().toString()}<br>Memo: ${mk.createPublic().toString()}<br>`;
+        return false;
+    }
+</script>
+<noscript>Sorry, your browser does not support JavaScript!</noscript>
+<body>
+
+<h2>Hive offline key generator</h2>
+
+<form name="user_form">
+    <label for="uname">Username:</label><br>
+    <input type="text" id="uname" name="uname" value="good-karma"><br><br>
+    <label for="mpassword">Master password:</label><br>
+    <input type="text" id="mpassword" name="mpassword" value="P5..."><br><br>
+    <input type="submit" value="Generate keys" onclick="return actionForm()">
+    <br><br><br>
+    <pre id="prkeys">
+    </pre>
+    <br><br><br>
+    <pre id="pukeys">
+    </pre>
+</form>
+
+</body>
+</html>
