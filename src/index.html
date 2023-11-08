@@ -8,6 +8,10 @@
     body {
         padding: 35px;
     }
+    #mpassword, #uname {
+        width: 300px;
+        margin: auto;
+    }
 </style>
 <script src="./dhive@latest.js">
 </script>
@@ -23,9 +27,15 @@
         document.getElementById('pukeys').innerHTML = `<h2>Public Keys</h2><br>Owner: ${ok.createPublic().toString()}<br>Active: ${ak.createPublic().toString()}<br>Posting: ${pk.createPublic().toString()}<br>Memo: ${mk.createPublic().toString()}<br>`;
         return false;
     }
+    function suggest_brain_key() {
+        const array = new Uint32Array(16);
+        let ss = self.crypto.getRandomValues(array);
+        document.getElementById('mpassword').value = `P${dhive.PrivateKey.fromSeed(ss).toString()}`;
+        return false;
+    }
 </script>
 <noscript>Sorry, your browser does not support JavaScript!</noscript>
-<body>
+<body onload="suggest_brain_key()">
 
 <h2>Hive offline key generator</h2>
 
@@ -33,7 +43,7 @@
     <label for="uname">Username:</label><br>
     <input type="text" id="uname" name="uname" value="good-karma"><br><br>
     <label for="mpassword">Master password:</label><br>
-    <input type="text" id="mpassword" name="mpassword" value="P5..."><br><br>
+    <input type="text" id="mpassword" name="mpassword" value="P5..."><input type="submit" value="🔄" onclick="return suggest_brain_key()"><br><br>
     <input type="submit" value="Generate keys" onclick="return actionForm()">
     <br><br><br>
     <pre id="prkeys">
